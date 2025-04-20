@@ -1,6 +1,21 @@
+import init, { AesCtrSecret } from "./pkg/aes_ctr_rsts.js";
+await init();
+
 const input = document.getElementById("textInput") as HTMLInputElement;
 const button = document.getElementById("submitButton") as HTMLInputElement;
 const list = document.getElementById("listContainer") as HTMLInputElement;
+
+const key = new TextEncoder().encode("2".repeat(32));
+const nonce = new TextEncoder().encode("4".repeat(8));
+const secret = new AesCtrSecret(key, nonce);
+
+const data = new TextEncoder().encode("This is a test message...");
+const encrypted = secret.encrypt(data);
+console.log("Ciphertext: ", encrypted);
+
+const decrypted = new AesCtrSecret(key, nonce).encrypt(encrypted);
+console.log("Deciphered text: ", new TextDecoder().decode(decrypted));
+
 
 function renderList(items: string[]) {
     list.innerHTML = ""; 

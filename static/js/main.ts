@@ -63,3 +63,4 @@ button.addEventListener("click", async () => {
 });
 
 window.onload = fetchItems;
+fetchItems();

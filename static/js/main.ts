@@ -5,8 +5,28 @@ const input = document.getElementById("textInput") as HTMLInputElement;
 const button = document.getElementById("submitButton") as HTMLInputElement;
 const list = document.getElementById("listContainer") as HTMLInputElement;
 
-const key = new TextEncoder().encode("2".repeat(32));
-const nonce = new TextEncoder().encode("4".repeat(8));
+let passphrase = "";
+while (!passphrase) {
+    passphrase = prompt("Enter passphrase: ")?.trim() || "";
+}
+
+const { key, nonce } = await deriveKeyAndNonce(passphrase);
+
+console.log(key);
+console.log(nonce);
+
+async function deriveKeyAndNonce(passphrase: string): Promise<{ key: Uint8Array, nonce: Uint8Array }> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(passphrase);
+
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = new Uint8Array(hashBuffer);
+
+    const key = hashArray.slice(0, 32);
+    const nonce = hashArray.slice(0, 8).reverse();
+
+    return { key, nonce };
+}
 
 function renderList(items: number[][]) {
     list.innerHTML = ""; 

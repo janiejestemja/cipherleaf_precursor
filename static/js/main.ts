@@ -7,23 +7,22 @@ const list = document.getElementById("listContainer") as HTMLInputElement;
 
 const key = new TextEncoder().encode("2".repeat(32));
 const nonce = new TextEncoder().encode("4".repeat(8));
-const secret = new AesCtrSecret(key, nonce);
 
-const data = new TextEncoder().encode("This is a test message...");
-const encrypted = secret.encrypt(data);
-console.log("Ciphertext: ", encrypted);
-
-const decrypted = new AesCtrSecret(key, nonce).encrypt(encrypted);
-console.log("Deciphered text: ", new TextDecoder().decode(decrypted));
-
-
-function renderList(items: string[]) {
+function renderList(items: number[][]) {
     list.innerHTML = ""; 
 
     items.forEach( (item, index) => {
         const li = document.createElement("li");
         const p = document.createElement("p");
-        p.textContent = item;
+
+        try {
+            const encryptedBytes = new Uint8Array(item);
+            const decrypted = new AesCtrSecret(key, nonce).encrypt(encryptedBytes);
+            const decryptedText = new TextDecoder().decode(decrypted);
+            p.textContent = decryptedText;
+        } catch (e) {
+            p.textContent = "[decryption failed]";
+        }
 
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
@@ -41,7 +40,7 @@ function renderList(items: string[]) {
 
 async function fetchItems() {
     const response = await fetch("/items");
-    const items: string[] = await response.json();
+    const items: number[][] = await response.json();
     renderList(items);
 }
 
@@ -49,10 +48,14 @@ button.addEventListener("click", async () => {
     const text = input.value.trim();
 
     if (text !== "") {
+        const encoded = new TextEncoder().encode(text);
+        const encrypted = new AesCtrSecret(key, nonce).encrypt(encoded);
+        const encryptedList = Array.from(encrypted);
+
         await fetch("/items", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ text }),
+            body: JSON.stringify({ text: encryptedList }),
         });
         input.value = "";
         fetchItems();

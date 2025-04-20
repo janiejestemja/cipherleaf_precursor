@@ -7,15 +7,13 @@ from typing import List
 
 app = FastAPI()
 
-items: List[str] = []
+items: List[List[int]] = []
 
 class Item(BaseModel):
-    text: str
+    text: List[int]
 
 # Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Templates
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/")

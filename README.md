@@ -73,7 +73,7 @@ In development.
 
 Things may break, shift or sparkle unecpectedly, but it's alive and growing... Cipherleaf was planted, watered, and grown from scratch, with way too many late nights, cozy bugs, and a little help from a rubber duck.
 
-Because of the way the encryption keys are derived by the passphrase, as well as the AES mode implemented this software is not safe to use for real world usage - it's just a neat proof of concept.
+Because of the way the encryption keys are derived by the passphrase, as well as the AES mode implemented this software is not safe for real world application - it's just a neat proof of concept.
 
 ## License
 ---

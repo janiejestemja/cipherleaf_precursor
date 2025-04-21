@@ -49,20 +49,21 @@ pip install -r requirements
 
 ### Compile Rust to WebAssembly
 ---
-
-- Compile Rust code to WASM
 ```bash
+cd static/js/aes_ctr_rsts
 wasm-pack build --target web
 ```
 
 ### Compile the frontend TypeScript
 ---
 ```bash
+cd ..
 tsc
 ```
 
 ### Start the FastAPI backend
 ---
+Change directory to the root directory of the repository and run...
 ```bash
 uvicorn app:main --reload
 ```
@@ -78,7 +79,3 @@ Because of the way the encryption keys are derived by the passphrase, as well as
 ## License
 ---
 [MIT]
-
-
-*Sections yet to be written...*
-

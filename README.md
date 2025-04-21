@@ -76,6 +76,8 @@ Things may break, shift or sparkle unecpectedly, but it's alive and growing... C
 
 Because of the way the encryption keys are derived by the passphrase, as well as the AES mode implemented this software is not safe for real world application - it's just a neat proof of concept.
 
+The encryption engine used in Cipherleaf can be found [here](https://github.com/janiejestemja/aes_ctr_rspy) in a version that compiles into a Python module (installable via pip) instead of WebAssembly.
+
 ## License
 ---
-[MIT]
+MIT License

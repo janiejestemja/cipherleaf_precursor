@@ -54,7 +54,7 @@ cd static/js/aes_ctr_rsts
 wasm-pack build --target web
 ```
 
-### Compile the frontend TypeScript
+### Transpile the frontend TypeScript
 ---
 ```bash
 cd ..
